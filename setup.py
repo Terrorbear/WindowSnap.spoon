@@ -1,3 +1,4 @@
+#! /usr/local/bin/python3
 import os
 import pathlib
 
@@ -9,10 +10,12 @@ def main():
     assert folder_name == "Spoons", f"{err_msg} - Folder:{folder_name}"
 
     line = "hs.loadSpoon('WindowSnap')"
-    with open(os.path.join(spoons_dir, '../init.lua'), 'r+') as f:
+    config_path = os.path.join(spoons_dir, '../init.lua')
+    exists = os.path.exists(config_path)
+    with open(config_path, 'r+' if exists else 'w+') as f:
         all_text = f.read()
         if line not in all_text:
-            if not all_text.endswith('\n'):
+            if not all_text.endswith('\n') and len(all_text) > 0:
                 f.write('\n')
             f.write(line)
             f.write("\n")
